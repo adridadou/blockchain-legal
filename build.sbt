@@ -6,7 +6,10 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.7"
 
-resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
+resolvers ++= Seq(
+  "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository",
+  "java-ipfs-api-mvn-repo" at "https://raw.github.com/pascr/java-ipfs-api/mvn-repo/",
+  "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases")
 
 libraryDependencies ++= Seq(
   jdbc,
@@ -19,5 +22,3 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.0-RC1" % "test",
   "org.adridadou"  % "eth-contract-api" % "0.5-SNAPSHOT"
 )
-
-resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
