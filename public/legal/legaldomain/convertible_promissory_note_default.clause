@@ -1,0 +1,16 @@
+name:  Convertible Promissory Note - Default
+
+description: Defaults are a fact of life when it comes to loans and other notes.  This provision outlines various conditions when a default will occur.
+
+parameters:
+	Petition Discharge:
+		type: number
+
+text:
+    #''''Default''''.  If there shall be any Event of Default hereunder, at the option and upon the declaration of the Requisite Holders and upon written notice to the Company (which election and notice shall not be required in the case of an Event of Default under sub-paragraph (c) or (d) of this Paragraph), this Note shall accelerate and all principal and unpaid accrued interest shall become due and payable. The occurrence of any one or more of the following shall constitute an Event of Default:
+    ##The Company fails to pay timely any of the principal amount due under this Note on the date the same becomes due and payable or any accrued interest or other amounts due under this Note on the date the same becomes due and payable;
+    ##The Company shall default in its performance of any covenant under the Agreement or any Note;
+    ##The Company files any petition or action for relief under any bankruptcy, reorganization, insolvency or moratorium law or any other law for the relief of, or relating to, debtors, now or hereafter in effect, or makes any assignment for the benefit of creditors or takes any corporate action in furtherance of any of the foregoing; or
+    ##An involuntary petition is filed against the Company (unless such petition is dismissed or discharged within [[Petition Discharge]] days under any bankruptcy statute now or hereafter in effect, or a custodian, receiver, trustee, assignee for the benefit of creditors (or other similar official) is appointed to take possession, custody or control of any property of the Company.
+
+Category: Convertible Promissory Note, Default, Venture Capital, Seed Financing, Tech Stars

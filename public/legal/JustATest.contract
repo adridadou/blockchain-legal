@@ -1,0 +1,10 @@
+parameters:
+    contractor:
+        type:FullName
+    contractorBirthdate:
+        type:ContractDate
+clauses:
+    JustATest:
+        contractor:this.contractor
+        contractorBirthdate:this.contractorBirthdate
+        comment:"this is a static comment"

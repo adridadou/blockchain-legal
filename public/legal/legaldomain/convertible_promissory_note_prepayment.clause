@@ -1,0 +1,10 @@
+name:  Convertible Promissory Note - Prepayment
+
+description: If a company wishes to prepay the note, it will only be possible to do so with the consent of the Requisite Holders
+
+parameters:
+
+text:
+#	''''Prepayment''''.  The Company may not prepay this Note prior to the Maturity Date without the consent of the Requisite Holders.
+
+Category: Convertible Promissory Note, Prepayment, Venture Capital, Seed Financing, Tech Stars

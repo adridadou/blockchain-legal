@@ -1,0 +1,21 @@
+name:  Convertible Promissory Note - Preamble
+description: This is the preamble language for a convertible promissory note
+parameters:
+   Company Name:
+       type: Name
+   
+   Holder Name:
+   		type: Name
+
+   	Principle Sum:
+   		type: Price in dollar
+
+   	Effective Date Convertible Promissory Note Purchase Agreement:
+   		type: Date
+
+text:
+  For value received [[Company Name]], a Delaware corporation (the “Company”), promises to pay to [[Holder Name]] or its assigns (“Holder”) the principal sum of $[[Principle Sum]] together with accrued and unpaid interest thereon, each due and payable on the date and in the manner set forth below. 
+
+  This convertible promissory note (the “Note”) is issued as part of a series of similar convertible promissory notes (collectively, the “Notes”) pursuant to the terms of that certain Convertible Promissory Note Purchase Agreement (as amended, the “Agreement”) dated as of [[Effective Date Convertible Promissory Note Purchase Agreement]]  to the persons and entities listed on the Schedule of Purchasers attached to the Agreement (collectively, the “Holders”). Capitalized terms used herein without definition shall have the meanings given to such terms in the Agreement. 
+
+Category: Convertible Promissory Note, Preamble, Venture Capital, Seed Financing, Tech Stars

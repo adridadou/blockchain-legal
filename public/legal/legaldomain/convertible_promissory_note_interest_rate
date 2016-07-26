@@ -1,0 +1,12 @@
+name:  Convertible Promissory Note - Interest Rate
+
+description: Notes have an interest rate component.  This note has an annual interest rate which shall be due and payable on the Maturity Date and calculated on the basis of a 365-day year.
+
+parameters:
+   Interest Rate:
+       type: Number
+
+Category: Convertible Promissory Note, Interest Rate, Venture Capital, Seed Financing, Tech Stars
+
+text:
+#	''''Interest Rate''''.  The Company promises to pay simple interest on the outstanding principal amount hereof from the date hereof until payment in full, which interest shall be payable at the rate of [[Interest Rate]]% per annum or the maximum rate permissible by law, whichever is less.  Interest shall be due and payable on the Maturity Date and shall be calculated on the basis of a 365-day year for the actual number of days elapsed.

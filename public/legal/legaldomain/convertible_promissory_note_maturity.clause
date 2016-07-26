@@ -1,0 +1,10 @@
+name:  Convertible Promissory Note - Maturity
+
+description: Like all loans (a note), the entire principle of the note, including all unpaid and accured interest is due and payable on the Maturity Date.
+
+parameters:
+
+Category: Convertible Promissory Note, Maturity, Venture Capital, Seed Financing, Tech Stars
+
+text:
+#	''''Maturity''''.  Unless this Note has been previously converted in accordance with the terms of this agreement or otherwise satisfied, the entire outstanding principal balance and all unpaid accrued interest shall become fully due and payable on the Maturity Date.

@@ -1,0 +1,12 @@
+name:  Convertible Promissory Note - Parity with Other Notes
+
+description: This is the paragraph for a convertible promissory note, which requires that the repayment obligation to the Holder of the note shall be on partity with the Company's obligation to repay all Notes issued under the agreement.
+
+parameters:
+   Maturity Date:
+       type: Date
+
+Category: Convertible Promissory Note, Partity with Other Notes, Venture Capital, Seed Financing, Tech Stars
+
+text:
+# ''''Parity with Other Notes''''.  The Company’s repayment obligation to the Holder under this Note shall be on parity with the Company’s obligation to repay all Notes issued pursuant to the Agreement.  In the event that the Company is obligated to repay the Notes and does not have sufficient funds to repay all the Notes in full, payment shall be made to the Holders of the Notes on a pro rata basis.  The preceding sentence shall not, however, relieve the Company of its obligations to the Holder hereunder.

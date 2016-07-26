@@ -1,0 +1,11 @@
+name:  Convertible Promissory Note - Governing Law
+
+description: This provision accounts for disputes between the parties and sets the laws of a specific state to govern the note.
+
+parameters:
+	Governing Law State:
+		type: text
+
+Category: Convertible Promissory Note, Governing Law, Venture Capital, Seed Financing, Tech Stars
+
+text: #	''''Governing Law'''.  This Note shall be governed by and construed under the laws of the State of [[Governing Law State]], as applied to agreements among [[Governing Law State]], made and to be performed entirely within the State of [[Governing Law State]], without giving effect to conflicts of laws principles.

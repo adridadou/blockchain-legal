@@ -1,0 +1,10 @@
+name:  Convertible Promissory Note - Expenses
+
+description: In the case of a default, the Company is agreeing to pay the reaosnable attorneys' fees and cost incurred by the note holder when trying to collect monies due and owing under this Agreement.
+
+parameters:
+
+Category: Convertible Promissory Note, Expenses, Venture Capital, Seed Financing, Tech Stars
+
+text:
+#	''''Expenses.''''  In the event of any default hereunder, the Company shall pay all reasonable attorneys’ fees and court costs incurred by Holder in enforcing and collecting this Note.

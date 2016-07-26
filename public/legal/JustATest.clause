@@ -1,0 +1,11 @@
+header:
+    name: Just a test
+    description: This is just a test to see how it works
+parameters:
+    contractor:
+        type: Name
+
+    contractorBirthdate:
+        type: Date
+text:
+    This is my clause. {{contractor}}. And I am born in {{contractorBirthdate}}
