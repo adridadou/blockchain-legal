@@ -5,24 +5,16 @@ import javax.inject.{Inject, Singleton}
 import org.adridadou.ethereum.{EthAddress, EthereumFacade}
 import providers.BlockchainLegalConfig
 
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-
 /**
   * Created by davidroon on 24.07.16.
   * This code is released under Apache 2 license
   */
 @Singleton
 class EthereumService @Inject() (ethereum:EthereumFacade, config:BlockchainLegalConfig) {
-  /*
-
-  private val contract = Future {
-    ethereum.createContractProxy(config.legalContractManagerConfig.code, "legalContractManager", config.legalContractManagerConfig.address,classOf[LegalContractManager])
-  }
-  */
+  val contractConfig = config.legalContractManagerConfig
+  val contract = ethereum.createContractProxy(contractConfig.code,contractConfig.name,contractConfig.address)
   def getCurrentBlockNumber:Long = ethereum.getCurrentBlockNumber
   def isSyncDone:Boolean = ethereum.isSyncDone
-  //def getContract:Future[LegalContractManager] = contract
 }
 
 

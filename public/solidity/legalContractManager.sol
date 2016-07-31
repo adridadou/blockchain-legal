@@ -54,11 +54,29 @@ contract LegalContractManagerInterface is mortal {
 
 contract LegalContractManager is LegalContractManagerInterface {
 
-	mapping(string => address) owners;
-	mapping(string => mapping(string => mapping(string => string))) context;
+	struct project {
+		uint nbVersions;
+		mapping(uint => string) versions;
+		mapping(string => string) packages;
+	}
+
+	struct namespace{
+		uint nbProjects;
+		mapping(uint => string) names;
+		mapping(string => project) projects;
+	}
+
+	struct namespaces {
+		uint length;
+		mapping(uint => string) ids;
+		mapping(string => address) owners;
+		mapping(string => namespace) spaces;
+	}
+
+	namespaces contexts;
 
 	modifier nameSpaceOwner(string namespace, address owner) {
-		if(owners[namespace] != owner) throw;
+		if(contexts.owners[namespace] != owner) throw;
 		_
 	}
 
@@ -66,25 +84,38 @@ contract LegalContractManager is LegalContractManagerInterface {
         owner = currentUser();
 	}
 
-	function getSource(string namespace, string name, string version) constant returns (string) {
-		return context[namespace][name][version];
+	function getSource(string namespace, string project, string version) constant returns (string) {
+		return contexts.spaces[namespace].projects[project].packages[version];
 	}
 
 	function canWrite(string namespace, address user) constant returns (bool) {
-		return owners[namespace] == user;
+		return contexts.owners[namespace] == user;
 	}
 
-	function register(string namespace, string name, string version, string ipfs) {
-		if(bytes(getSource(namespace,name,version)).length != 0 || !canWrite(namespace,currentUser())) throw;
+	function register(string namespace, string project, string version, string ipfs) {
+		if(bytes(getSource(namespace,project,version)).length != 0 || !canWrite(namespace,currentUser())) throw;
 
-		context[namespace][name][version] = ipfs;
+		registerProject(namespace,project);
+
+		contexts.spaces[namespace].projects[project].packages[version] = ipfs;
+		contexts.spaces[namespace].projects[project].versions[contexts.spaces[namespace].projects[project].nbVersions] = version;
+		contexts.spaces[namespace].projects[project].nbVersions++;
 	}
 
 	function createNamespace(string namespace, address owner) onlyowner nameSpaceOwner(namespace,0) {
-		owners[namespace] = owner;
+		contexts.owners[namespace] = owner;
+		contexts.ids[contexts.length] = namespace;
+		contexts.length++;
+	}
+
+	function registerProject(string namespace, string project) private {
+		if(contexts.spaces[namespace].projects[project].nbVersions == 0) {
+			contexts.spaces[namespace].names[contexts.spaces[namespace].nbProjects] = project;
+			contexts.spaces[namespace].nbProjects++;
+		}
 	}
 
 	function changeOwner(string namespace, address newOwner) nameSpaceOwner(namespace,currentUser()){
-		owners[namespace] = newOwner;
+		contexts.owners[namespace] = newOwner;
 	}
 }
