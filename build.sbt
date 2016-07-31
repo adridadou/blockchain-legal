@@ -2,7 +2,7 @@ name := """blockchain-legal"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 
 scalaVersion := "2.11.7"
 
@@ -20,5 +20,8 @@ libraryDependencies ++= Seq(
   "org.parboiled" %% "parboiled" % "2.1.3",
   "org.yaml" % "snakeyaml" % "1.17",
   "org.scalatest" %% "scalatest" % "3.0.0-RC1" % "test",
-  "org.adridadou"  % "eth-contract-api" % "0.5-SNAPSHOT"
+  "org.adridadou"  % "eth-contract-api" % "0.5-SNAPSHOT",
+
+  "org.webjars" %% "webjars-play" % "2.5.0",
+  "org.webjars" % "react" % "15.2.1"
 )

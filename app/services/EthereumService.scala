@@ -2,6 +2,7 @@ package services
 
 import javax.inject.{Inject, Singleton}
 
+import org.adridadou.ethereum.keystore.SecureKey
 import org.adridadou.ethereum.{EthAddress, EthereumFacade}
 import org.ethereum.crypto.ECKey
 import providers.BlockchainLegalConfig
@@ -15,7 +16,10 @@ class EthereumService @Inject() (ethereum:EthereumFacade, config:BlockchainLegal
   val contractConfig = config.legalContractManagerConfig
   def getCurrentBlockNumber:Long = ethereum.getCurrentBlockNumber
   def isSyncDone:Boolean = ethereum.isSyncDone
-  def contract(key:ECKey) : LegalContractManager = ethereum.createContractProxy(contractConfig.code,contractConfig.name,contractConfig.address,key,classOf[LegalContractManager])
+  def key(id:String):SecureKey = ethereum.getKey(id)
+  def contract(key:ECKey) : LegalContractManager = {
+    ethereum.createContractProxy(contractConfig.code,contractConfig.name,contractConfig.address,key,classOf[LegalContractManager])
+  }
 }
 
 
@@ -51,4 +55,17 @@ trait LegalContractManager {
   def changeOwner(namespace:String, newOwner:EthAddress):Unit
 
   def canWrite(namespace:String, user:EthAddress):Boolean
+
+
+  def getNbNamespaces:Int
+
+  def getNamespace(id:Int):String
+
+  def getNbProjects(namespace:String):Int
+
+  def getProject(namespace:String,id:Int):String
+
+  def getNbVersions(namespace:String,project:String):Int
+
+  def getVersion(namespace:String, project:String, id:Int):String
 }

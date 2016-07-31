@@ -18,41 +18,7 @@ contract mortal is abstract, owned {
   }
 }
 
-contract LegalContractManagerInterface is mortal {
-	/*
-		Get the source of the package. Right now this is an IPFS hash but it should be possible to have any way of retrieving the source (HTTP, FTP etc ...)
-
-		params:
-		- Namespace: The namespace of the package you are looking for
-		- name: the name of the legal documents
-		- version: the version of the legal documents
-	*/
-	function getSource(string namespace, string name, string version) constant returns (string);
-
-	/*
-		Register a new package.
-
-		params:
-		- Namespace: The namespace of the package you are looking for
-		- name: the name of the legal documents
-		- version: the version of the legal documents
-	*/
-	function register(string namespace, string name, string version, string ipfs);
-
-	/*
-		Create a new namespace and makes the tx.origin the owner of this namespace
-	*/
-	function createNamespace(string namespace, address owner);
-
-	/*
-		Passes the ownership of a namespace to someone else
-	*/
-	function changeOwner(string namespace, address newOwner);
-
-	function canWrite(string namespace, address user) constant returns (bool);
-}
-
-contract LegalContractManager is LegalContractManagerInterface {
+contract LegalContractManager is mortal {
 
 	struct project {
 		uint nbVersions;
@@ -79,6 +45,30 @@ contract LegalContractManager is LegalContractManagerInterface {
 		if(contexts.owners[namespace] != owner) throw;
 		_
 	}
+
+    function getNbNamespaces() constant returns (uint){
+        return contexts.length;
+    }
+
+    function getNamespace(uint id) constant returns (string) {
+        return contexts.ids[id];
+    }
+
+    function getNbProjects(string namespace) constant returns (uint){
+        return contexts.spaces[namespace].nbProjects;
+    }
+
+    function getProject(string namespace, uint id) constant returns (string) {
+        return contexts.spaces[namespace].names[id];
+    }
+
+    function getNbVersions(string namespace, string project) constant returns (uint) {
+        return contexts.spaces[namespace].projects[project].nbVersions;
+    }
+
+    function getVersion(string namespace, string project, uint id) constant returns(string) {
+        return contexts.spaces[namespace].projects[project].versions[id];
+    }
 
 	function LegalContractManager() {
         owner = currentUser();

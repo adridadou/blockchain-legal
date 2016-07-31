@@ -9,6 +9,6 @@ import services.IpfsService
   */
 class IpfsProvider extends Provider[IpfsService]{
   override def get(): IpfsService = {
-    val service = new IpfsService("/ip4/127.0.0.1/tcp/5001")
+    new IpfsService("/ip4/127.0.0.1/tcp/5001")
   }
 }
