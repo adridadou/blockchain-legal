@@ -3,6 +3,7 @@ package services
 import javax.inject.{Inject, Singleton}
 
 import org.adridadou.ethereum.{EthAddress, EthereumFacade}
+import org.ethereum.crypto.ECKey
 import providers.BlockchainLegalConfig
 
 /**
@@ -12,9 +13,9 @@ import providers.BlockchainLegalConfig
 @Singleton
 class EthereumService @Inject() (ethereum:EthereumFacade, config:BlockchainLegalConfig) {
   val contractConfig = config.legalContractManagerConfig
-  val contract = ethereum.createContractProxy(contractConfig.code,contractConfig.name,contractConfig.address)
   def getCurrentBlockNumber:Long = ethereum.getCurrentBlockNumber
   def isSyncDone:Boolean = ethereum.isSyncDone
+  def contract(key:ECKey) : LegalContractManager = ethereum.createContractProxy(contractConfig.code,contractConfig.name,contractConfig.address,key,classOf[LegalContractManager])
 }
 
 
