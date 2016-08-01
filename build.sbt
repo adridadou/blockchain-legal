@@ -23,5 +23,7 @@ libraryDependencies ++= Seq(
   "org.adridadou"  % "eth-contract-api" % "0.5-SNAPSHOT",
 
   "org.webjars" %% "webjars-play" % "2.5.0",
-  "org.webjars" % "react" % "15.2.1"
+  "org.webjars" % "react" % "15.2.1",
+  "org.webjars.npm" % "select2" % "4.0.3",
+  "org.webjars" % "jquery" % "3.0.0"
 )

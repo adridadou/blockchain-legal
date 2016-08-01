@@ -70,6 +70,10 @@ contract LegalContractManager is mortal {
         return contexts.spaces[namespace].projects[project].versions[id];
     }
 
+    function getOwner(string namespace) constant returns(address) {
+        return contexts.owners[namespace];
+    }
+
 	function LegalContractManager() {
         owner = currentUser();
 	}

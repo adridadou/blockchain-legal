@@ -1,59 +1,64 @@
-let getStates = () => {
-    return [
-        'hello',
-        'world'
-    ];
-}
-
 let App = React.createClass({
-
-  getInitialState () {
-    return {
-      value: '',
-      unitedStates: getStates(),
-      loading: false
-    }
+  onChange: function(event) {
+    this.setState({value: event.target.value});
   },
-
-  render () {
-    return (
-      <div>
-        <h1>Async Data</h1>
-        <p>
-          Autocomplete works great with async data by allowing you to pass in
-          items. The <code>onChange</code> event provides you the value to make
-          a server request with, then change state and pass in new items, it will
-          attempt to autocomplete the first one.
-        </p>
-        <label htmlFor="states-autocomplete">Choose a namespace</label>
-        <input type="text"
-          value={this.state.value}
-          items={this.state.spaces}
-          getItemValue={(item) => item.name}
-          onSelect={(value, item) => {
-            // set the menu to only the selected item
-            this.setState({ value, unitedStates: [ item ] })
-            // or you could reset it to a default list again
-            // this.setState({ unitedStates: getStates() })
-          }}
-          onChange={(event, value) => {
-            this.setState({ value, loading: true })
-            fakeRequest(value, (items) => {
-              this.setState({ unitedStates: items, loading: false })
-            })
-          }}
-          renderItem={(item, isHighlighted) => (
-            <div
-              style={isHighlighted ? styles.highlightedItem : styles.item}
-              key={item.abbr}
-              id={item.abbr}
-            >{item.name}</div>
-          )}
-        />
-      </div>
-    )
+  getInitialState: function() {
+    return {value: ''};
+  },
+  getNamespace: function(name) {
+    return this.props.namespaces[name] ? {
+        name: name,
+        owner: this.props.namespaces[name]
+    } : undefined;
+  },
+  render: function() {
+    var createButton = <div></div>;
+    if(this.state.value !== '' && this.getNamespace(this.state.value) === undefined) {
+      createButton = <CreateNamespace name={this.state.value} />;
+    }
+    return (<div><div><label>New namespace:<input type="text" onChange={this.onChange} /></label></div><div>{createButton}</div><NamespaceTable namespaces={this.props.namespaces} /></div>);
   }
  });
 
+let CreateNamespace = React.createClass({
+    render: function() {
+        return <a href={'/namespace/create/' + this.props.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >Create {this.props.name}</a>;
+    }
+});
 
-ReactDOM.render(<App />, document.getElementById('content'));
+let NamespaceInfo = React.createClass({
+    render: function(){ return (<ul className="namespace">
+                    <li>{'name: ' + this.props.namespace.name}</li>
+                    <li>{'owner: ' + this.props.namespace.owner}</li>
+                  </ul>);
+            }
+});
+
+let NamespaceTable = React.createClass({
+    render: function() {
+        let lines = this.props.namespaces.map((namespace) => (<tr key={namespace.name}>
+            <td>{namespace.name}</td>
+            <td>{namespace.owner}</td>
+            <td><a href={'/project/' + namespace.name + '/create'} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >new Project</a></td>
+        </tr>))
+
+        return (
+        <table className="responstable">
+            <thead>
+                 <tr>
+                   <th>Name</th>
+                   <th >owner</th>
+                   <th>Action</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {lines}
+             </tbody>
+       </table>);
+    }
+});
+
+
+$.get('/namespaces').then((namespaces) => {
+    ReactDOM.render(<App namespaces={namespaces}/>, document.getElementById('content'));
+});

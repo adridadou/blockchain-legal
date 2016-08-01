@@ -47,7 +47,7 @@ trait LegalContractManager {
   /*
     Create a new namespace and makes the tx.origin the owner of this namespace
   */
-  def createNamespace(namespace:String, owner:EthAddress):Unit
+  def createNamespace(namespace:String, owner:Array[Byte]):Unit
 
   /*
     Passes the ownership of a namespace to someone else
@@ -68,4 +68,6 @@ trait LegalContractManager {
   def getNbVersions(namespace:String,project:String):Int
 
   def getVersion(namespace:String, project:String, id:Int):String
+
+  def getOwner(namespace:String) :EthAddress
 }

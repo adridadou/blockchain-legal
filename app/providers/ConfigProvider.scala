@@ -16,7 +16,7 @@ class ConfigProvider extends Provider[BlockchainLegalConfig] {
 
   private val solidityCode = new File("public/solidity/legalContractManager.sol")
 
-  private def legalContractManagerConfig:LegalContractManagerConfig = LegalContractManagerConfig(IOUtils.toString(new FileInputStream(solidityCode),Charsets.UTF_8),"LegalContractManager",EthAddress.of("29938bed29ff77cb1c2e3cc416cb2d106d1643c4"))
+  private def legalContractManagerConfig:LegalContractManagerConfig = LegalContractManagerConfig(IOUtils.toString(new FileInputStream(solidityCode),Charsets.UTF_8),"LegalContractManager",EthAddress.of("95b9d02c950da6f95630450927ed5a19cd881649"))
 }
 
 case class BlockchainLegalConfig(legalContractManagerConfig:LegalContractManagerConfig)
