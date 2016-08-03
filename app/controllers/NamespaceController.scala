@@ -20,7 +20,11 @@ class NamespaceController @Inject()(ethereum:EthereumService, conf:Configuration
 
   lazy val namespaces:Seq[JsValue] = for(i <- 0 until contract.getNbNamespaces) yield {
     val namespace = contract.getNamespace(i)
-    Json.toJson(Map("name" -> namespace, "owner" -> contract.getOwner(namespace).toString))
+    Json.toJson(Map(
+      "name" -> namespace,
+      "owner" -> contract.getOwner(namespace).toString,
+      "nbProjects" -> contract.getNbProjects(namespace).toString
+    ))
   }
 
   def index = Action { implicit request =>

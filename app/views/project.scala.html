@@ -2,7 +2,7 @@
  * This template takes a single argument, a String containing a
  * message to display.
  *@
-@(message: String, webJarAssets: WebJarAssets)(implicit request: RequestHeader)
+@(message: String,namespace:String, webJarAssets: WebJarAssets)(implicit request: RequestHeader)
 
 @*
  * Call the `main` template with two arguments. The first
@@ -10,6 +10,18 @@
  * argument is an `Html` object containing the body of the page.
  *@
 @main("Projects management",webJarAssets: WebJarAssets) {
-<div id="content"></div>
-<script type='text/javascript' src='@routes.Assets.versioned("javascripts/namespace.js")'></script>
+<div id="header" class="main-content"></div>
+
+<form action="/file-upload" class="dropzone">
+    <div class="fallback">
+        <input name="file" type="file" multiple />
+    </div>
+</form>
+
+<div id="table" class="main-content"></div>
+
+<script>
+ var namespace = '@namespace';
+</script>
+<script type='text/javascript' src='@routes.Assets.versioned("javascripts/project.js")'></script>
 }

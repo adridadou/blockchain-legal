@@ -6,10 +6,7 @@ let App = React.createClass({
     return {value: ''};
   },
   getNamespace: function(name) {
-    return this.props.namespaces[name] ? {
-        name: name,
-        owner: this.props.namespaces[name]
-    } : undefined;
+    return this.props.namespaces.filter((namespace) => name === namespace.name)[0];
   },
   render: function() {
     var createButton = <div></div>;
@@ -26,20 +23,13 @@ let CreateNamespace = React.createClass({
     }
 });
 
-let NamespaceInfo = React.createClass({
-    render: function(){ return (<ul className="namespace">
-                    <li>{'name: ' + this.props.namespace.name}</li>
-                    <li>{'owner: ' + this.props.namespace.owner}</li>
-                  </ul>);
-            }
-});
-
 let NamespaceTable = React.createClass({
     render: function() {
         let lines = this.props.namespaces.map((namespace) => (<tr key={namespace.name}>
             <td>{namespace.name}</td>
             <td>{namespace.owner}</td>
-            <td><a href={'/project/' + namespace.name + '/create'} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >new Project</a></td>
+            <td>{namespace.nbProjects}</td>
+            <td><a href={'/project/' + namespace.name} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >Projects</a></td>
         </tr>))
 
         return (
@@ -47,7 +37,8 @@ let NamespaceTable = React.createClass({
             <thead>
                  <tr>
                    <th>Name</th>
-                   <th >owner</th>
+                   <th>owner</th>
+                   <th>nb projects</th>
                    <th>Action</th>
                  </tr>
              </thead>
