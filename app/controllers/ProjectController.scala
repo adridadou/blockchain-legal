@@ -37,4 +37,16 @@ class ProjectController @Inject()(ethereum:EthereumService, conf:Configuration, 
     Redirect("/project/" + namespace)
   }
 
+  def upload = Action(parse.multipartFormData) { request =>
+    request.body.file("file").map { file =>
+      import java.io.File
+      val filename = file.filename
+      new File("uploaded").mkdir()
+      file.ref.moveTo(new File(s"uploaded/$filename"))
+      Ok("File uploaded")
+    }.getOrElse {
+      NotFound("file not found!")
+    }
+  }
+
 }
