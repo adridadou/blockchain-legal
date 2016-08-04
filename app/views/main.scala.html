@@ -96,9 +96,15 @@
         var serverSocket = new WS("@routes.HomeController.socket.webSocketURL()");
         serverSocket.onmessage = function(event) {
             var msg = JSON.parse(event.data);
-            document.getElementById("blockNumber").innerHTML = '  block no°: ' + msg.blockNumber;
-            document.getElementById("syncStatus").innerHTML = msg.syncDone ? 'check_circle' :'sync';
-            document.getElementById("ipfs").innerHTML = 'IPFS status: ' + msg.ipfsStatus;
+            if(msg.syncDone === 'true') {
+                document.getElementById("blockNumber").innerHTML = '  block no°: ' + msg.blockNumber;
+                document.getElementById("syncStatus").innerHTML = 'check_circle';
+                document.getElementById("ipfs").innerHTML = 'IPFS: ' + msg.ipfsStatus;
+            }else {
+                document.getElementById("blockNumber").innerHTML = ' sync progress: ' + msg.progress + ' %';
+                document.getElementById("syncStatus").innerHTML = 'sync';
+                document.getElementById("ipfs").innerHTML = 'IPFS: ' + msg.ipfsStatus;
+            }
         };
 
         serverSocket.onopen = function() {

@@ -16,7 +16,7 @@ class ProjectController @Inject()(ethereum:EthereumService, conf:Configuration, 
   val adminKey = ethereum.key(admin).decode("")
   val userKey = ethereum.key(user).decode("")
 
-  val contract = ethereum.contract(adminKey)
+  def contract = ethereum.contract(adminKey)
 
   def projects(namespace:String):Seq[JsValue] = for(i <- 0 until contract.getNbProjects(namespace)) yield {
     val project = contract.getProject(namespace,i)

@@ -7,6 +7,8 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import services.EthereumService
 
+import scala.concurrent.Future
+
 @Singleton
 class NamespaceController @Inject()(ethereum:EthereumService, conf:Configuration, webJarAssets:WebJarAssets) extends Controller {
 
@@ -16,7 +18,7 @@ class NamespaceController @Inject()(ethereum:EthereumService, conf:Configuration
   val adminKey = ethereum.key(admin).decode("")
   val userKey = ethereum.key(user).decode("")
 
-  val contract = ethereum.contract(adminKey)
+  def contract = ethereum.contract(adminKey)
 
   lazy val namespaces:Seq[JsValue] = for(i <- 0 until contract.getNbNamespaces) yield {
     val namespace = contract.getNamespace(i)

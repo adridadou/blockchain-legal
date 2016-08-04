@@ -43,10 +43,12 @@ class BlockchainStatusActor(out: ActorRef, ethereum:EthereumFacade, ipfs:IpfsSer
   def receive = {
     case "ethereumState" => out ! Json.obj(
       "blockNumber" -> ethereum.getCurrentBlockNumber,
+      "lastBlockNumber" -> ethereum.getEstimatedLastBlockNumber,
+      "progress" -> (ethereum.getCurrentBlockNumber * 100 / ethereum.getEstimatedLastBlockNumber).toString,
       "syncDone" -> ethereum.isSyncDone.toString,
       "ipfsStatus" -> (ipfs.ipfs match {
-        case None => JsString("connection error")
-        case Some(_) => JsString("connected")
+        case None => "connection error"
+        case Some(_) => "connected"
       })
     ).toString()
     case msg: String =>
