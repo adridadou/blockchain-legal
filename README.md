@@ -8,7 +8,7 @@ You can find the instructions here: https://ipfs.io
 
 
 Then you can download the latest distribution of the application directly from IPFS here:
-http://gateway.ipfs.io/ipfs/Qmdji83rQr9eGE9iWGTAyJpRTFfphiYXQ6TaGg5vnZ5ZCs
+http://gateway.ipfs.io/ipfs/Qmevyg93G9Xyc2v3afZE1FRUzTbPQRveRnpP5FoAVBGtHJ
 
 
 This will download a zip file. You can unzip it and start the application by running bin/blockchain-legal
