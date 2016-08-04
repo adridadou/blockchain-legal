@@ -230,5 +230,10 @@ ul{
 
 
 .main-content {
-    width:90%;
+    width:80%;
+    display: flex;
+}
+
+.button-table {
+    align-text: center;
 }

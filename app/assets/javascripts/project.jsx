@@ -27,7 +27,7 @@ let App = React.createClass({
                         <td>version:</td><td><input type="text" onChange={this.onChangeVersion} /></td>
                     </tr>
                     <tr>
-                        <td></td><td><CreateProject name={this.state.value} namespace={namespace} /></td>
+                        <td colSpan="2" className="button-table"><CreateProject name={this.state.value} namespace={namespace} /></td>
                     </tr>
                 </tbody>
             </table>);
