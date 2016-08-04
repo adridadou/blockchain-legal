@@ -10,16 +10,31 @@
  * argument is an `Html` object containing the body of the page.
  *@
 @main("Projects management",webJarAssets: WebJarAssets) {
-<div id="header" class="main-content"></div>
-
-<form action="/project/upload" class="dropzone">
-    <div class="fallback">
-        <input name="file" type="file" multiple />
-    </div>
-</form>
-
+<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-grid mdl-grid--no-spacing">
+    <div id="header"></div>
+    <form action="/project/upload" class="dropzone">
+        <div class="fallback">
+            <input name="file" type="file" multiple />
+        </div>
+    </form>
+</div>
+<div class="demo-cards mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing">
+    <table class="responstable">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>myfile.sol</td>
+            <td>remove</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <div id="table" class="main-content"></div>
-
 <script>
  var namespace = '@namespace';
 </script>
