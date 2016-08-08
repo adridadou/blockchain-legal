@@ -23,7 +23,12 @@ contract LegalContractManager is mortal {
 	struct project {
 		uint nbVersions;
 		mapping(uint => string) versions;
-		mapping(string => string) packages;
+		mapping(string => repository) packages;
+	}
+
+	struct repository {
+		mapping (string => string) source;
+		string checksum;
 	}
 
 	struct namespace{
@@ -78,20 +83,28 @@ contract LegalContractManager is mortal {
         owner = currentUser();
 	}
 
-	function getSource(string namespace, string project, string version) constant returns (string) {
-		return contexts.spaces[namespace].projects[project].packages[version];
+	function getSource(string namespace, string project, string version, string protocol) constant returns (string) {
+		return contexts.spaces[namespace].projects[project].packages[version].source[protocol];
+	}
+
+	function getChecksum(string namespace, string project, string version) constant returns (string) {
+		return contexts.spaces[namespace].projects[project].packages[version].checksum;
 	}
 
 	function canWrite(string namespace, address user) constant returns (bool) {
 		return contexts.owners[namespace] == user;
 	}
 
-	function register(string namespace, string project, string version, string ipfs) {
-		if(bytes(getSource(namespace,project,version)).length != 0 || !canWrite(namespace,currentUser())) throw;
+	function register(string namespace, string project, string version, string protocol, string source, string checksum) {
+		if(bytes(getSource(namespace,project,version, protocol)).length != 0 || !canWrite(namespace,currentUser())) throw;
 
 		registerProject(namespace,project);
 
-		contexts.spaces[namespace].projects[project].packages[version] = ipfs;
+		contexts.spaces[namespace].projects[project].packages[version].source[protocol] = source;
+		if(bytes(contexts.spaces[namespace].projects[project].packages[version].checksum).length == 0) {
+			contexts.spaces[namespace].projects[project].packages[version].checksum = checksum;
+		}else if(stringsEqual(contexts.spaces[namespace].projects[project].packages[version].checksum, checksum) == false) throw;
+
 		contexts.spaces[namespace].projects[project].versions[contexts.spaces[namespace].projects[project].nbVersions] = version;
 		contexts.spaces[namespace].projects[project].nbVersions++;
 	}
@@ -111,5 +124,17 @@ contract LegalContractManager is mortal {
 
 	function changeOwner(string namespace, address newOwner) nameSpaceOwner(namespace,currentUser()){
 		contexts.owners[namespace] = newOwner;
+	}
+
+	function stringsEqual(string storage _a, string memory _b) internal returns (bool) {
+		bytes storage a = bytes(_a);
+		bytes memory b = bytes(_b);
+		if (a.length != b.length)
+			return false;
+		// @todo unroll this loop
+		for (uint i = 0; i < a.length; i ++)
+			if (a[i] != b[i])
+				return false;
+		return true;
 	}
 }

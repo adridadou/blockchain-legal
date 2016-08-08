@@ -32,7 +32,7 @@ trait LegalContractManager {
 		- name: the name of the legal documents
 		- version: the version of the legal documents
 	*/
-  def getSource(namespace:String, name:String, version:String):String
+  def getSource(namespace:String, name:String, version:String, protocol:String):String
 
   /*
     Register a new package.
@@ -42,7 +42,9 @@ trait LegalContractManager {
     - name: the name of the legal documents
     - version: the version of the legal documents
   */
-  def register(namespace:String, name:String, version:String, ipfs:String):Unit
+  def register(namespace:String, name:String, version:String, protocol:String, source:String, checksum:String):Unit
+
+  def getChecksum(namespace:String, name:String, version:String):String
 
   /*
     Create a new namespace and makes the tx.origin the owner of this namespace
