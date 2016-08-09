@@ -8,9 +8,10 @@ GET     /namespace                  controllers.NamespaceController.index
 GET     /namespaces                 controllers.NamespaceController.getNamespaces
 GET     /namespace/create/:name     controllers.NamespaceController.create(name:String)
 
-GET     /project/:name              controllers.ProjectController.index(name:String)
+GET     /project/:name          controllers.ProjectController.index(name:String)
 POST    /project/upload             controllers.ProjectController.upload()
 GET     /projects/:name             controllers.ProjectController.getProjects(name:String)
+GET     /project/create/:namespace/:project/:version controllers.ProjectController.create(namespace:String, project:String, version:String)
 
 GET     /websocket                  controllers.HomeController.socket
 

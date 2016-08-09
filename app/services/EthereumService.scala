@@ -17,9 +17,7 @@ class EthereumService @Inject() (ethereum:EthereumFacade, config:BlockchainLegal
   def getCurrentBlockNumber:Long = ethereum.getCurrentBlockNumber
   def isSyncDone:Boolean = ethereum.isSyncDone
   def key(id:String):SecureKey = ethereum.getKey(id)
-  def contract(key:ECKey) : LegalContractManager = {
-    ethereum.createContractProxy(contractConfig.code,contractConfig.name,contractConfig.address,key,classOf[LegalContractManager])
-  }
+  def contract(key:ECKey) : LegalContractManager = ethereum.createContractProxy(contractConfig.code,contractConfig.name,contractConfig.address,key,classOf[LegalContractManager])
 }
 
 

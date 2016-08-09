@@ -1,6 +1,8 @@
 package services
 
-import org.ipfs.api.{IPFS, Multihash}
+import java.io.File
+
+import org.ipfs.api.{IPFS, Multihash, NamedStreamable}
 
 import scala.util.{Failure, Success, Try}
 
@@ -9,6 +11,12 @@ import scala.util.{Failure, Success, Try}
   * This code is released under Apache 2 license
   */
 class IpfsService(val url:String) {
+  def add(file: File) = ipfs.map(ipfsClient => {
+    val ipfsFile = new NamedStreamable.FileWrapper(file)
+    val addResult = ipfsClient.add(ipfsFile)
+    addResult.hash.toBase58
+  })
+
   private var ipfsConnection:Try[IPFS] = initIpfs
   private def initIpfs = {
     Try(new IPFS(url))

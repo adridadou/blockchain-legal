@@ -7,8 +7,6 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import services.EthereumService
 
-import scala.concurrent.Future
-
 @Singleton
 class NamespaceController @Inject()(ethereum:EthereumService, conf:Configuration, webJarAssets:WebJarAssets) extends Controller {
 
