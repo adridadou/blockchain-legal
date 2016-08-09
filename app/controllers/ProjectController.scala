@@ -22,6 +22,8 @@ class ProjectController @Inject()(ethereum:EthereumService, conf:Configuration, 
   def contract = ethereum.contract(adminKey)
   def userContract = ethereum.contract(userKey)
 
+  private val uploadedFile = new File("uploaded")
+
   def projects(namespace:String):Seq[JsValue] = for(i <- 0 until contract.getNbProjects(namespace)) yield {
     val project = contract.getProject(namespace,i)
     Json.toJson(Map("name" -> project, "nbVersions" -> contract.getNbVersions(namespace,project).toString))
@@ -35,14 +37,22 @@ class ProjectController @Inject()(ethereum:EthereumService, conf:Configuration, 
     Ok(Json.toJson(projects(namespace)))
   }
 
+  def getFiles = Action {request =>
+    Ok(Json.toJson(uploadedFile.list().toSeq))
+  }
+
+  def removeFile(namespace:String, name:String) = Action { request =>
+    uploadedFile.listFiles().filter(_.getName.equals(name)).foreach(_.delete())
+    Redirect(s"/project/$namespace")
+  }
 
   def create(namespace:String, projectName:String, version:String) = Action {implicit request =>
-    val file = zip(new File("uploaded").listFiles())
+    val file = zip(uploadedFile.listFiles())
     val chksm = checksum(file)
     val ipfsHash = ipfsService.add(file).getOrElse("")
-    println("ipfs hash:" + ipfsHash)
 
     userContract.register(namespace,projectName,version,"ipfs", ipfsHash, chksm)
+    uploadedFile.listFiles().foreach(_.delete())
     Redirect("/project/" + namespace)
   }
 
@@ -63,7 +73,7 @@ class ProjectController @Inject()(ethereum:EthereumService, conf:Configuration, 
     request.body.file("file").map { file =>
       import java.io.File
       val filename = file.filename
-      new File("uploaded").mkdir()
+      uploadedFile.mkdir()
       file.ref.moveTo(new File(s"uploaded/$filename"))
       Ok("File uploaded")
     }.getOrElse {

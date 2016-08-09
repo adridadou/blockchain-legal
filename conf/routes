@@ -13,6 +13,8 @@ POST    /project/upload             controllers.ProjectController.upload()
 GET     /projects/:name             controllers.ProjectController.getProjects(name:String)
 GET     /project/create/:namespace/:project/:version controllers.ProjectController.create(namespace:String, project:String, version:String)
 
+GET     /project/files/list         controllers.ProjectController.getFiles()
+GET     /project/file/remove/:namespace/:name  controllers.ProjectController.removeFile(namespace, name)
 GET     /websocket                  controllers.HomeController.socket
 
 # Map static resources from the /public folder to the /assets URL path

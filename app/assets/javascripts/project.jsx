@@ -27,7 +27,7 @@ let App = React.createClass({
                         <td>version:</td><td><input type="text" onChange={this.onChangeVersion} /></td>
                     </tr>
                     <tr>
-                        <td colSpan="2" className="button-table"><CreateProject name={this.state.value} namespace={namespace} /></td>
+                        <td colSpan="2" className="button-table"><CreateProject name={this.state.name} namespace={namespace} version={this.state.version} /></td>
                     </tr>
                 </tbody>
             </table>);
@@ -45,12 +45,13 @@ let ProjectTable = React.createClass({
         let lines = this.props.projects.map((project) => (<tr key={project.name}>
             <td>{project.name}</td>
             <td>{project.nbVersions}</td>
-            <td><a href={'/project/' + project.name + '/create'} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >new Project version</a></td>
+            <td><a href={'/project/' + this.props.namespace + '/' + project.name + '/create'} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >new Project version</a></td>
         </tr>))
 
         return (
         <table className="responstable">
             <thead>
+                <tr><th colSpan="3">{'Projects in ' + this.props.namespace}</th></tr>
                  <tr>
                    <th>Name</th>
                    <th >nb versions</th>
@@ -64,8 +65,34 @@ let ProjectTable = React.createClass({
     }
 });
 
+let FilesTable = React.createClass({
+    render: function() {
+        let lines = this.props.files.map((file) => (<tr key={file}>
+            <td>{file}</td>
+            <td><a href={'/project/file/remove/' + this.props.namespace + '/' + file} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >Remove file</a></td>
+        </tr>))
+
+        return (
+        <table className="responstable">
+            <thead>
+                <tr><th colSpan="2">{'Files ready for the project '}</th></tr>
+                 <tr>
+                   <th>Filename</th>
+                   <th >Action</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {lines}
+             </tbody>
+       </table>);
+    }
+});
 
 $.get('/projects/' + namespace).then((projects) => {
     ReactDOM.render(<ProjectTable projects={projects} namespace={namespace} />, document.getElementById('table'));
     ReactDOM.render(<App projects={projects} namespace={namespace}/>, document.getElementById('header'));
 });
+
+$.get('/project/files/list').then((files) => {
+    ReactDOM.render(<FilesTable files={files} namespace={namespace}/>, document.getElementById('files'))
+})
