@@ -45,16 +45,16 @@ let ProjectTable = React.createClass({
         let lines = this.props.projects.map((project) => (<tr key={project.name}>
             <td>{project.name}</td>
             <td>{project.nbVersions}</td>
-            <td><a href={'/project/' + this.props.namespace + '/' + project.name + '/create'} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >new Project version</a></td>
+            <td><a href={'/package/page/' + this.props.namespace  + '/' + project.name } className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >Open</a></td>
         </tr>))
 
         return (
         <table className="responstable">
             <thead>
-                <tr><th colSpan="3">{'Projects in ' + this.props.namespace}</th></tr>
+                <tr><th colSpan="3cd ta ">{'Projects in ' + this.props.namespace}</th></tr>
                  <tr>
                    <th>Name</th>
-                   <th >nb versions</th>
+                   <th>nb versions</th>
                    <th>Action</th>
                  </tr>
              </thead>
@@ -75,7 +75,7 @@ let FilesTable = React.createClass({
         return (
         <table className="responstable">
             <thead>
-                <tr><th colSpan="2">{'Files ready for the project '}</th></tr>
+                <tr><th colSpan="2">Files ready for the project</th></tr>
                  <tr>
                    <th>Filename</th>
                    <th >Action</th>

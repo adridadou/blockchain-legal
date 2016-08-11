@@ -13,6 +13,9 @@ POST    /project/upload             controllers.ProjectController.upload()
 GET     /projects/:name             controllers.ProjectController.getProjects(name:String)
 GET     /project/create/:namespace/:project/:version controllers.ProjectController.create(namespace:String, project:String, version:String)
 
+GET     /package/:namespace/:project controllers.ProjectController.packages(namespace,project)
+GET     /package/page/:namespace/:project controllers.ProjectController.packagePage(namespace,project)
+
 GET     /project/files/list         controllers.ProjectController.getFiles()
 GET     /project/file/remove/:namespace/:name  controllers.ProjectController.removeFile(namespace, name)
 GET     /websocket                  controllers.HomeController.socket

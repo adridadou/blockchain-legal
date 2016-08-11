@@ -1,0 +1,21 @@
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@(message: String,namespace:String,project:String, webJarAssets: WebJarAssets)(implicit request: RequestHeader)
+
+@*
+ * Call the `main` template with two arguments. The first
+ * argument is a `String` with the title of the page, the second
+ * argument is an `Html` object containing the body of the page.
+ *@
+@main("Projects management",webJarAssets: WebJarAssets) {
+
+<div id="files" class="main-content"></div>
+
+<script>
+ let namespace = '@namespace', project='@project';
+</script>
+
+<script type='text/javascript' src='@routes.Assets.versioned("javascripts/file.js")'></script>
+}

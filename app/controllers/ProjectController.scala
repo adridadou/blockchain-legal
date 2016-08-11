@@ -29,8 +29,26 @@ class ProjectController @Inject()(ethereum:EthereumService, conf:Configuration, 
     Json.toJson(Map("name" -> project, "nbVersions" -> contract.getNbVersions(namespace,project).toString))
   }
 
+  def packages(namespace:String, project:String) = Action{ request =>
+    val nbVersions = contract.getNbVersions(namespace,project)
+    val result:Seq[Map[String, String]] = (0 until contract.getNbVersions(namespace, project)).map(i => {
+      val version = contract.getVersion(namespace, project, i)
+
+      Map(
+        "name" -> version,
+        "ipfs" -> contract.getSource(namespace, project, version, "ipfs")
+      )
+    })
+
+    Ok(Json.toJson(result))
+  }
+
   def index(namespace:String) = Action { implicit request =>
     Ok(views.html.project("Project explorer", namespace, webJarAssets))
+  }
+
+  def packagePage(namespace:String, project:String) = Action {implicit request =>
+    Ok(views.html.file("Package explorer", namespace, project, webJarAssets))
   }
 
   def getProjects(namespace:String) = Action {request =>
