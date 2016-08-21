@@ -20,6 +20,7 @@ libraryDependencies ++= Seq(
   "org.parboiled" %% "parboiled" % "2.1.3",
   "org.yaml" % "snakeyaml" % "1.17",
   "org.scalatest" %% "scalatest" % "3.0.0-RC1" % "test",
+  "io.reactivex" %% "rxscala" % "0.26.2",
   "org.adridadou"  % "eth-contract-api" % "0.5-SNAPSHOT",
 
   "org.webjars" %% "webjars-play" % "2.5.0",

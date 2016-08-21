@@ -5,11 +5,13 @@ import javax.inject._
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import org.adridadou.ethereum.EthereumFacade
-import play.api.libs.json.{JsString, Json}
+import play.api.libs.json.Json
 import play.api.libs.streams.ActorFlow
 import play.api.mvc._
 import providers.BlockchainLegalConfig
 import services.IpfsService
+import rx.lang.scala.JavaConversions._
+
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -40,18 +42,27 @@ object BlockchainStatusActor {
 }
 
 class BlockchainStatusActor(out: ActorRef, ethereum:EthereumFacade, ipfs:IpfsService) extends Actor {
+  val eventHandler = ethereum.eventHandler()
   def receive = {
-    case "ethereumState" => out ! Json.obj(
-      "blockNumber" -> ethereum.getCurrentBlockNumber,
-      "lastBlockNumber" -> ethereum.getEstimatedLastBlockNumber,
-      "progress" -> (ethereum.getCurrentBlockNumber * 100 / ethereum.getEstimatedLastBlockNumber).toString,
-      "syncDone" -> ethereum.isSyncDone.toString,
+    case "ethereumState" => {
+
+      out ! json(false).toString()
+
+      toScalaObservable(eventHandler.observeSync()).foreach(b => {
+        out ! json(true).toString()
+      })
+    }
+    case msg: String =>
+      out ! ("I received your message: " + msg)
+  }
+
+  def json(syncDone:Boolean) = {
+    Json.obj(
+      "blockNumber" -> eventHandler.getCurrentBlockNumber,
+      "syncDone" -> syncDone.toString,
       "ipfsStatus" -> (ipfs.ipfs match {
         case None => "connection error"
         case Some(_) => "connected"
-      })
-    ).toString()
-    case msg: String =>
-      out ! ("I received your message: " + msg)
+      }))
   }
 }

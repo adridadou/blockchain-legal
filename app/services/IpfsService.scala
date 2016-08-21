@@ -2,6 +2,7 @@ package services
 
 import java.io.File
 
+import org.ipfs.api.NamedStreamable.ByteArrayWrapper
 import org.ipfs.api.{IPFS, Multihash, NamedStreamable}
 
 import scala.util.{Failure, Success, Try}
@@ -13,6 +14,12 @@ import scala.util.{Failure, Success, Try}
 class IpfsService(val url:String) {
   def add(file: File) = ipfs.map(ipfsClient => {
     val ipfsFile = new NamedStreamable.FileWrapper(file)
+    val addResult = ipfsClient.add(ipfsFile)
+    addResult.hash.toBase58
+  })
+
+  def add(content:Array[Byte]) = ipfs.map(ipfsClient => {
+    val ipfsFile = new ByteArrayWrapper(content)
     val addResult = ipfsClient.add(ipfsFile)
     addResult.hash.toBase58
   })

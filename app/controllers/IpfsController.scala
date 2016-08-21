@@ -12,6 +12,7 @@ class IpfsController @Inject()(ipfsService:IpfsService) extends Controller {
   def getFile(hash:String) = Action {
     val filePointer = Multihash.fromBase58(hash)
     val fileContents = ipfsService.cat(filePointer)
+    ipfsService.add(fileContents)
     Ok(fileContents)
   }
 

@@ -2,7 +2,7 @@ let FileTable = React.createClass({
     render: function() {
         let lines = this.props.files.map((file) => (<tr key={file.name}>
             <td>{file.name}</td>
-            <td><a href={'https://ipfs.io/ipfs/' + file.ipfs} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >GET</a></td>
+            <td><a href={'/ipfs/' + file.ipfs} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored mdl-color-text--white" >GET</a></td>
         </tr>))
 
         return (

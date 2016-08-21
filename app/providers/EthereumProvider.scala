@@ -8,9 +8,12 @@ import org.adridadou.ethereum.provider.TestnetEthereumFacadeProvider
   * This code is released under Apache 2 license
   */
 class EthereumProvider extends Provider[EthereumFacade] {
-
   override def get(): EthereumFacade = {
-    val provider = new TestnetEthereumFacadeProvider()
-    provider.create()
+    EthereumProvider.provider.create()
   }
+}
+
+
+object EthereumProvider {
+  val provider = new TestnetEthereumFacadeProvider()
 }
