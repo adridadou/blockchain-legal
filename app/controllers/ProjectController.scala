@@ -36,7 +36,8 @@ class ProjectController @Inject()(ethereum:EthereumService, conf:Configuration, 
 
       Map(
         "name" -> version,
-        "ipfs" -> contract.getSource(namespace, project, version, "ipfs")
+        "ipfs" -> contract.getSource(namespace, project, version, "ipfs"),
+        "checksum" -> contract.getChecksum(namespace,project,version)
       )
     })
 

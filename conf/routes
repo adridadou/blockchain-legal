@@ -8,7 +8,7 @@ GET     /namespace                  controllers.NamespaceController.index
 GET     /namespaces                 controllers.NamespaceController.getNamespaces
 GET     /namespace/create/:name     controllers.NamespaceController.create(name:String)
 
-GET     /ipfs/:hash                 controllers.IpfsController.getFile(hash)
+GET     /ipfs/:namespace/:project/:version controllers.IpfsController.getFile(namespace,project,version)
 
 GET     /project/:name          controllers.ProjectController.index(name:String)
 POST    /project/upload             controllers.ProjectController.upload()
