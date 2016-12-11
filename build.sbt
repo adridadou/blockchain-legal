@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
   "org.yaml" % "snakeyaml" % "1.17",
   "org.scalatest" %% "scalatest" % "3.0.0-RC1" % "test",
   "io.reactivex" %% "rxscala" % "0.26.2",
-  "org.adridadou"  % "eth-contract-api" % "0.12-SNAPSHOT",
+  "org.adridadou"  % "eth-contract-api" % "0.12",
 
   "org.webjars" %% "webjars-play" % "2.5.0",
   "org.webjars" % "react" % "15.2.1",
