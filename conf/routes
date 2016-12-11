@@ -1,5 +1,6 @@
 # Routes
-# This file defines all application routes (Higher priority routes first)
+# The first definitions are deprecated but I won't remove them right away.
+# Let's first make it work and then I'll clean it up
 # ~~~~
 
 # An example controller showing a sample home page
@@ -22,7 +23,27 @@ GET     /project/files/list         controllers.ProjectController.getFiles()
 GET     /project/file/remove/:namespace/:name  controllers.ProjectController.removeFile(namespace, name)
 GET     /websocket                  controllers.HomeController.socket
 
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /webjars/*file              controllers.WebJarAssets.at(file)
+
+
+
+#############
+## New API ##
+#############
+
+# Creation and Retrieval of Templates
+GET     /api/v1/template/:address/:name/:version                controllers.ApiController.getTemplate(address,name,version)
+POST    /api/v1/template/:address/:name/:version                controllers.ApiController.newTemplate(address,name,version)
+
+# Posting of Signatures of “Smart” Legal Contract
+POST /api/v1/signature/:address/:name/:version/:signature       controllers.ApiController.signDocument(address,name,version,signature)
+
+# Execution and Retrieval of “Smart” Legal Contract
+POST /api/v1/document/:address/:name/:version                   controllers.ApiController.newDocument(address,name,version)
+GET /api/v1/document/:address/:name/:version                    controllers.ApiController.getDocuments(address,name,version)
+# GET /api/v1/document/:address/:name/:version/:checksum/document controllers.ApiController.getDocument(address,name,version,checksum)
+GET /api/v1/document/:address/:name/:version/:checksum/params   controllers.ApiController.getDocumentParams(address,name,version,checksum)

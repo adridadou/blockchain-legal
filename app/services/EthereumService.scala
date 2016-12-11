@@ -2,11 +2,13 @@ package services
 
 import javax.inject.{Inject, Singleton}
 
+import org.adridadou.ethereum.EthereumFacade
 import org.adridadou.ethereum.keystore.SecureKey
-import org.adridadou.ethereum.{EthAddress, EthereumFacade}
-import org.ethereum.crypto.ECKey
-import providers.BlockchainLegalConfig
-import rx.lang.scala.JavaConversions._
+import org.adridadou.ethereum.values.{EthAccount, EthAddress}
+import providers.{BlockchainLegalConfig, LegalContractManagerConfig}
+import scala.concurrent.ExecutionContext.Implicits.global
+
+import scala.concurrent.Future
 
 /**
   * Created by davidroon on 24.07.16.
@@ -14,11 +16,13 @@ import rx.lang.scala.JavaConversions._
   */
 @Singleton
 class EthereumService @Inject() (ethereum:EthereumFacade, config:BlockchainLegalConfig) {
-  val contractConfig = config.legalContractManagerConfig
-  def getCurrentBlockNumber:Long = ethereum.eventHandler().getCurrentBlockNumber
-  def syncObservable = toScalaObservable(ethereum.eventHandler().observeSync())
+  val contractConfig:LegalContractManagerConfig = config.legalContractManagerConfig
+  def getCurrentBlockNumber:Long = ethereum.events().getCurrentBlockNumber
+  val onReady:Future[Boolean] = Future {
+      ethereum.events().onReady().get()
+  }
   def key(id:String):SecureKey = config.getKey(id)
-  def contract(key:ECKey) : LegalContractManager = ethereum.createContractProxy(contractConfig.code,contractConfig.name,contractConfig.address,key,classOf[LegalContractManager])
+  def contract(key:EthAccount, address:EthAddress) : LegalContractManager = ethereum.createContractProxy(contractConfig.code,contractConfig.name, address,key,classOf[LegalContractManager])
 }
 
 
@@ -48,7 +52,7 @@ trait LegalContractManager {
   /*
     Create a new namespace and makes the tx.origin the owner of this namespace
   */
-  def createNamespace(namespace:String, owner:Array[Byte]):Unit
+  def createNamespace(namespace:String, owner:EthAddress):Unit
 
   /*
     Passes the ownership of a namespace to someone else

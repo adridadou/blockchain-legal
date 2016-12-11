@@ -2,7 +2,6 @@ import com.google.inject.AbstractModule
 import java.time.Clock
 
 import org.adridadou.ethereum.EthereumFacade
-import org.ipfs.api.IPFS
 import providers.{BlockchainLegalConfig, ConfigProvider, EthereumProvider, IpfsProvider}
 import services.IpfsService
 

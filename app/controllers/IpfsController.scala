@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream
 import java.security.MessageDigest
 import javax.inject._
 
+import org.adridadou.ethereum.values.EthAddress
 import org.ipfs.api.Multihash
 import org.spongycastle.util.encoders.Hex
 import play.api.Configuration
@@ -19,8 +20,8 @@ class IpfsController @Inject()(ipfsService:IpfsService, ethereum:EthereumService
   val adminKey = ethereum.key(admin).decode("")
   val userKey = ethereum.key(user).decode("")
 
-  def contract = ethereum.contract(adminKey)
-  def userContract = ethereum.contract(userKey)
+  def contract = ethereum.contract(adminKey, EthAddress.of(""))
+  def userContract = ethereum.contract(userKey, EthAddress.of(""))
 
   def getFile(namespace:String, project:String, version:String) = Action {
     val hash = contract.getSource(namespace,project,version,"ipfs")

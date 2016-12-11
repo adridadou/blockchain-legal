@@ -10,7 +10,6 @@ import play.api.mvc._
 import providers.BlockchainLegalConfig
 import services.{EthereumService, IpfsService}
 
-
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
@@ -36,30 +35,28 @@ class HomeController @Inject()(ethereum:EthereumService, config:BlockchainLegalC
 import akka.actor._
 
 object BlockchainStatusActor {
-  def props(out: ActorRef, ethereum:EthereumService, ipfs:IpfsService) = Props(new BlockchainStatusActor(out, ethereum, ipfs))
+  def props(out: ActorRef, ethereum:EthereumService, ipfs:IpfsService) = {
+    Props(new BlockchainStatusActor(out, ethereum, ipfs))
+  }
 }
 
 class BlockchainStatusActor(out: ActorRef, ethereum:EthereumService, ipfs:IpfsService) extends Actor {
 
   def receive = {
-    case "ethereumState" => {
+    case "ethereumState" =>
+      out ! json(ethereum.onReady.isCompleted)
 
-      out ! json(false).toString()
-      ethereum.syncObservable.foreach(b => {
-        out ! json(true).toString()
-      })
-    }
     case msg: String =>
       out ! ("I received your message: " + msg)
   }
 
   def json(syncDone:Boolean) = {
     Json.obj(
-      "blockNumber" -> ethereum.getCurrentBlockNumber,
+      "blockNumber" -> ethereum.getCurrentBlockNumber.toString,
       "syncDone" -> syncDone.toString,
       "ipfsStatus" -> (ipfs.ipfs match {
         case None => "connection error"
         case Some(_) => "connected"
-      }))
+      })).toString()
   }
 }

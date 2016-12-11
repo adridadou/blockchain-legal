@@ -2,6 +2,7 @@ package controllers
 
 import javax.inject._
 
+import org.adridadou.ethereum.values.EthAddress
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
@@ -16,7 +17,7 @@ class NamespaceController @Inject()(ethereum:EthereumService, conf:Configuration
   val adminKey = ethereum.key(admin).decode("")
   val userKey = ethereum.key(user).decode("")
 
-  def contract = ethereum.contract(adminKey)
+  def contract = ethereum.contract(adminKey, EthAddress.of(""))
 
   lazy val namespaces:Seq[JsValue] = for(i <- 0 until contract.getNbNamespaces) yield {
     val namespace = contract.getNamespace(i)

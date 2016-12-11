@@ -4,6 +4,7 @@ import java.io.{File, FileInputStream}
 import java.security.MessageDigest
 import javax.inject._
 
+import org.adridadou.ethereum.values.EthAddress
 import org.spongycastle.util.encoders.Hex
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
@@ -19,8 +20,8 @@ class ProjectController @Inject()(ethereum:EthereumService, conf:Configuration, 
   val adminKey = ethereum.key(admin).decode("")
   val userKey = ethereum.key(user).decode("")
 
-  def contract = ethereum.contract(adminKey)
-  def userContract = ethereum.contract(userKey)
+  def contract = ethereum.contract(adminKey, EthAddress.of(""))
+  def userContract = ethereum.contract(userKey, EthAddress.of(""))
 
   private val uploadedFile = new File("uploaded")
 
