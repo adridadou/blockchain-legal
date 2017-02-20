@@ -3,7 +3,6 @@ package services
 import javax.inject.{Inject, Singleton}
 
 import org.adridadou.ethereum.EthereumFacade
-import org.adridadou.ethereum.keystore.SecureKey
 import org.adridadou.ethereum.values.{EthAccount, EthAddress}
 import providers.{BlockchainLegalConfig, LegalContractManagerConfig}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -21,8 +20,8 @@ class EthereumService @Inject() (ethereum:EthereumFacade, config:BlockchainLegal
   val onReady:Future[Boolean] = Future {
       ethereum.events().onReady().get()
   }
-  def key(id:String):SecureKey = config.getKey(id)
-  def contract(key:EthAccount, address:EthAddress) : LegalContractManager = ethereum.createContractProxy(contractConfig.code,contractConfig.name, address,key,classOf[LegalContractManager])
+  def key(id:String):EthAccount = config.getAccount(id)
+  def contract(key:EthAccount, address:EthAddress) : LegalContractManager = ethereum.createContractProxy(contractConfig.abi,address,key,classOf[LegalContractManager])
 }
 
 

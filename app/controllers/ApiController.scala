@@ -4,8 +4,8 @@ import java.io.{ByteArrayInputStream, File, FileInputStream}
 import java.security.MessageDigest
 import javax.inject._
 
+import io.ipfs.multihash.Multihash
 import org.adridadou.ethereum.values.EthAddress
-import org.ipfs.api.Multihash
 import org.spongycastle.util.encoders.Hex
 import play.api.Configuration
 import play.api.mvc._
@@ -20,8 +20,8 @@ class ApiController @Inject()(ethereum:EthereumService, ipfsService:IpfsService,
   val namespaceDocument = conf.getString("adridadou.ethereum.namespace.document").getOrElse("")
   val namespaceSignature = conf.getString("adridadou.ethereum.namespace.signature").getOrElse("")
 
-  val adminAccount = ethereum.key(admin).decode("")
-  val userAccount = ethereum.key(user).decode("")
+  val adminAccount = ethereum.key(admin)
+  val userAccount = ethereum.key(user)
 
   private val uploadedFile = new File("uploaded")
 

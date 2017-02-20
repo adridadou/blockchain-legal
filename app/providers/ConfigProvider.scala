@@ -1,23 +1,30 @@
 package providers
 
+import javax.inject.Inject
+
 import com.google.inject.Provider
-import org.adridadou.ethereum.keystore.SecureKey
-import org.adridadou.ethereum.values.SoliditySource
+import org.adridadou.ethereum.EthereumFacade
+import org.adridadou.ethereum.keystore.AccountProvider
+import org.adridadou.ethereum.values.{ContractAbi, EthAccount, SoliditySource}
 
 /**
   * Created by davidroon on 24.07.16.
   * This code is released under Apache 2 license
   */
-class ConfigProvider extends Provider[BlockchainLegalConfig] {
+class ConfigProvider @Inject() (ethereum:EthereumFacade) extends Provider[BlockchainLegalConfig] {
   override def get(): BlockchainLegalConfig = BlockchainLegalConfig(legalContractManagerConfig)
 
-  private val solidityCode = getClass.getResourceAsStream("/public/solidity/legalContractManager.sol")
+  private val solidityCode = SoliditySource.from(getClass.getResourceAsStream("/public/solidity/legalContractManager.sol"))
 
-  private def legalContractManagerConfig:LegalContractManagerConfig = LegalContractManagerConfig(SoliditySource.from(solidityCode),"LegalContractManager")
+  private val contractName = "LegalContractManager"
+
+  private val abi = ethereum.compile(solidityCode, contractName).get().getAbi
+
+  private def legalContractManagerConfig:LegalContractManagerConfig = LegalContractManagerConfig(abi, contractName)
 }
 
 case class BlockchainLegalConfig(legalContractManagerConfig:LegalContractManagerConfig) {
-  def getKey(id: String): SecureKey = EthereumProvider.provider.getKey(id)
+  def getAccount(id: String): EthAccount = AccountProvider.from(id)
 }
 
-case class LegalContractManagerConfig(code:SoliditySource,name:String)
+case class LegalContractManagerConfig(abi:ContractAbi, name:String)

@@ -2,8 +2,9 @@ package services
 
 import java.io.File
 
-import org.ipfs.api.NamedStreamable.ByteArrayWrapper
-import org.ipfs.api.{IPFS, Multihash, NamedStreamable}
+import io.ipfs.api.{IPFS, NamedStreamable}
+import io.ipfs.api.NamedStreamable.ByteArrayWrapper
+import io.ipfs.multihash.Multihash
 
 import scala.util.{Failure, Success, Try}
 

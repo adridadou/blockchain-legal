@@ -1,18 +1,18 @@
-contract abstract {}
+pragma solidity ^0.4.8;
 
-contract owned is abstract {
-  address owner;
+contract owned {
+    address owner;
 
-  modifier onlyowner() {
-    if (currentUser()==owner) _
-  }
+    modifier onlyOwner() {
+        if (currentUser()==owner) _;
+    }
 
-  function currentUser() returns (address) {
-		return msg.sender;
-	}
+    function currentUser() returns (address) {
+        return msg.sender;
+    }
 }
 
-contract mortal is abstract, owned {
+contract mortal is owned {
   function kill() {
     if (msg.sender == owner) suicide(owner);
   }
@@ -48,7 +48,7 @@ contract LegalContractManager is mortal {
 
 	modifier nameSpaceOwner(string namespace, address owner) {
 		if(contexts.owners[namespace] != owner) throw;
-		_
+		_;
 	}
 
     function getNbNamespaces() constant returns (uint){
@@ -109,7 +109,7 @@ contract LegalContractManager is mortal {
 		contexts.spaces[namespace].projects[project].nbVersions++;
 	}
 
-	function createNamespace(string namespace, address owner) onlyowner nameSpaceOwner(namespace,0) {
+	function createNamespace(string namespace, address owner) onlyOwner nameSpaceOwner(namespace,0) {
 		contexts.owners[namespace] = owner;
 		contexts.ids[contexts.length] = namespace;
 		contexts.length++;
